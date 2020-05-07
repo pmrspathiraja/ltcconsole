@@ -8,7 +8,7 @@ using LTCReportGen.Model;
 namespace LTCReportGen.Operation_Class
 {
     public class DataTableOut
-    {
+    {   
         public DataTable ConvertPaymentInfo(List<MoodlePaymentInfo> paymentInfo)
         {
             DataTable dt = new DataTable();
