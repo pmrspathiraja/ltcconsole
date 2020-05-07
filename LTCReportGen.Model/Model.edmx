@@ -1,0 +1,500 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ltclk_eteacherModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="LessonInfo">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubjectID" Type="int" />
+          <Property Name="LessonName" Type="nvarchar(max)" />
+          <Property Name="Active" Type="int" />
+        </EntityType>
+        <EntityType Name="MoodlePaymentInfo">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubID" Type="int" />
+          <Property Name="Subjects" Type="nvarchar(max)" />
+          <Property Name="Contact" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar(max)" />
+          <Property Name="NIC" Type="nvarchar(max)" />
+          <Property Name="EzyCashRef" Type="nvarchar(max)" />
+          <Property Name="CreatedDate" Type="date" />
+          <Property Name="ExpireDate" Type="date" />
+          <Property Name="Active" Type="int" />
+          <Property Name="IPAddress" Type="nvarchar(max)" />
+          <Property Name="FullName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="MoodleSubjectInfo">
+          <Key>
+            <PropertyRef Name="SubID" />
+          </Key>
+          <Property Name="SubID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubjectName" Type="nvarchar(max)" />
+          <Property Name="Active" Type="int" />
+        </EntityType>
+        <EntityType Name="SubjectInfo">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubjectName" Type="varchar(max)" />
+          <Property Name="Active" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="UserInfo">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar(max)" />
+          <Property Name="Password" Type="varchar(max)" />
+          <Property Name="SubjectsID" Type="int" />
+          <Property Name="Active" Type="int" />
+          <Property Name="LoginCount" Type="int" />
+          <Property Name="Name" Type="varchar(max)" />
+          <Property Name="ContactNo" Type="varchar(max)" />
+          <Property Name="IsLTC" Type="int" />
+          <Property Name="UserRoleID" Type="int" />
+        </EntityType>
+        <EntityType Name="UserRoleInfo">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserRole" Type="varchar(max)" />
+          <Property Name="Active" Type="int" />
+        </EntityType>
+        <EntityType Name="VIdeoInfo">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubjectID" Type="int" />
+          <Property Name="LessonID" Type="int" />
+          <Property Name="VideoURL" Type="varchar(max)" />
+          <Property Name="Active" Type="int" />
+          <Property Name="VideoName" Type="nvarchar" MaxLength="4000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VideoTxnInfo">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="SubjectID" Type="int" />
+          <Property Name="VideoViewCount" Type="int" />
+          <Property Name="Active" Type="int" />
+          <Property Name="VideoID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_MoodlePaymentInfo_MoodleSubjectInfo1">
+          <End Role="MoodleSubjectInfo" Type="Self.MoodleSubjectInfo" Multiplicity="0..1" />
+          <End Role="MoodlePaymentInfo" Type="Self.MoodlePaymentInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MoodleSubjectInfo">
+              <PropertyRef Name="SubID" />
+            </Principal>
+            <Dependent Role="MoodlePaymentInfo">
+              <PropertyRef Name="SubID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserInfo_SubjectInfo">
+          <End Role="SubjectInfo" Type="Self.SubjectInfo" Multiplicity="0..1" />
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubjectInfo">
+              <PropertyRef Name="UId" />
+            </Principal>
+            <Dependent Role="UserInfo">
+              <PropertyRef Name="SubjectsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserInfo_UserRoleInfo1">
+          <End Role="UserRoleInfo" Type="Self.UserRoleInfo" Multiplicity="0..1" />
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRoleInfo">
+              <PropertyRef Name="UId" />
+            </Principal>
+            <Dependent Role="UserInfo">
+              <PropertyRef Name="UserRoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VIdeoInfo_SubjectInfo1">
+          <End Role="SubjectInfo" Type="Self.SubjectInfo" Multiplicity="0..1" />
+          <End Role="VIdeoInfo" Type="Self.VIdeoInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubjectInfo">
+              <PropertyRef Name="UId" />
+            </Principal>
+            <Dependent Role="VIdeoInfo">
+              <PropertyRef Name="SubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ltclk_eteacherModelStoreContainer">
+          <EntitySet Name="LessonInfo" EntityType="Self.LessonInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MoodlePaymentInfo" EntityType="Self.MoodlePaymentInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MoodleSubjectInfo" EntityType="Self.MoodleSubjectInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubjectInfo" EntityType="Self.SubjectInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserInfo" EntityType="Self.UserInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRoleInfo" EntityType="Self.UserRoleInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VIdeoInfo" EntityType="Self.VIdeoInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VideoTxnInfo" EntityType="Self.VideoTxnInfo" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_MoodlePaymentInfo_MoodleSubjectInfo1" Association="Self.FK_MoodlePaymentInfo_MoodleSubjectInfo1">
+            <End Role="MoodleSubjectInfo" EntitySet="MoodleSubjectInfo" />
+            <End Role="MoodlePaymentInfo" EntitySet="MoodlePaymentInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserInfo_SubjectInfo" Association="Self.FK_UserInfo_SubjectInfo">
+            <End Role="SubjectInfo" EntitySet="SubjectInfo" />
+            <End Role="UserInfo" EntitySet="UserInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserInfo_UserRoleInfo1" Association="Self.FK_UserInfo_UserRoleInfo1">
+            <End Role="UserRoleInfo" EntitySet="UserRoleInfo" />
+            <End Role="UserInfo" EntitySet="UserInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VIdeoInfo_SubjectInfo1" Association="Self.FK_VIdeoInfo_SubjectInfo1">
+            <End Role="SubjectInfo" EntitySet="SubjectInfo" />
+            <End Role="VIdeoInfo" EntitySet="VIdeoInfo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ltclk_eteacherModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="LessonInfo">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubjectID" Type="Int32" />
+          <Property Name="LessonName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Active" Type="Int32" />
+        </EntityType>
+        <EntityType Name="MoodlePaymentInfo">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubID" Type="Int32" />
+          <Property Name="Subjects" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Contact" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NIC" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EzyCashRef" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="ExpireDate" Type="DateTime" Precision="0" />
+          <Property Name="Active" Type="Int32" />
+          <Property Name="IPAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FullName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MoodleSubjectInfo" Relationship="Self.FK_MoodlePaymentInfo_MoodleSubjectInfo1" FromRole="MoodlePaymentInfo" ToRole="MoodleSubjectInfo" />
+        </EntityType>
+        <EntityType Name="MoodleSubjectInfo">
+          <Key>
+            <PropertyRef Name="SubID" />
+          </Key>
+          <Property Name="SubID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubjectName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Active" Type="Int32" />
+          <NavigationProperty Name="MoodlePaymentInfoes" Relationship="Self.FK_MoodlePaymentInfo_MoodleSubjectInfo1" FromRole="MoodleSubjectInfo" ToRole="MoodlePaymentInfo" />
+        </EntityType>
+        <EntityType Name="SubjectInfo">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubjectName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Int32" />
+          <NavigationProperty Name="UserInfoes" Relationship="Self.FK_UserInfo_SubjectInfo" FromRole="SubjectInfo" ToRole="UserInfo" />
+          <NavigationProperty Name="VIdeoInfoes" Relationship="Self.FK_VIdeoInfo_SubjectInfo1" FromRole="SubjectInfo" ToRole="VIdeoInfo" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="UserInfo">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SubjectsID" Type="Int32" />
+          <Property Name="Active" Type="Int32" />
+          <Property Name="LoginCount" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ContactNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsLTC" Type="Int32" />
+          <Property Name="UserRoleID" Type="Int32" />
+          <NavigationProperty Name="SubjectInfo" Relationship="Self.FK_UserInfo_SubjectInfo" FromRole="UserInfo" ToRole="SubjectInfo" />
+          <NavigationProperty Name="UserRoleInfo" Relationship="Self.FK_UserInfo_UserRoleInfo1" FromRole="UserInfo" ToRole="UserRoleInfo" />
+        </EntityType>
+        <EntityType Name="UserRoleInfo">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserRole" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Int32" />
+          <NavigationProperty Name="UserInfoes" Relationship="Self.FK_UserInfo_UserRoleInfo1" FromRole="UserRoleInfo" ToRole="UserInfo" />
+        </EntityType>
+        <EntityType Name="VIdeoInfo">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubjectID" Type="Int32" />
+          <Property Name="LessonID" Type="Int32" />
+          <Property Name="VideoURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Int32" />
+          <Property Name="VideoName" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="SubjectInfo" Relationship="Self.FK_VIdeoInfo_SubjectInfo1" FromRole="VIdeoInfo" ToRole="SubjectInfo" />
+        </EntityType>
+        <EntityType Name="VideoTxnInfo">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="SubjectID" Type="Int32" />
+          <Property Name="VideoViewCount" Type="Int32" />
+          <Property Name="Active" Type="Int32" />
+          <Property Name="VideoID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_MoodlePaymentInfo_MoodleSubjectInfo1">
+          <End Role="MoodleSubjectInfo" Type="Self.MoodleSubjectInfo" Multiplicity="0..1" />
+          <End Role="MoodlePaymentInfo" Type="Self.MoodlePaymentInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MoodleSubjectInfo">
+              <PropertyRef Name="SubID" />
+            </Principal>
+            <Dependent Role="MoodlePaymentInfo">
+              <PropertyRef Name="SubID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserInfo_SubjectInfo">
+          <End Role="SubjectInfo" Type="Self.SubjectInfo" Multiplicity="0..1" />
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubjectInfo">
+              <PropertyRef Name="UId" />
+            </Principal>
+            <Dependent Role="UserInfo">
+              <PropertyRef Name="SubjectsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VIdeoInfo_SubjectInfo1">
+          <End Role="SubjectInfo" Type="Self.SubjectInfo" Multiplicity="0..1" />
+          <End Role="VIdeoInfo" Type="Self.VIdeoInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubjectInfo">
+              <PropertyRef Name="UId" />
+            </Principal>
+            <Dependent Role="VIdeoInfo">
+              <PropertyRef Name="SubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserInfo_UserRoleInfo1">
+          <End Role="UserRoleInfo" Type="Self.UserRoleInfo" Multiplicity="0..1" />
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRoleInfo">
+              <PropertyRef Name="UId" />
+            </Principal>
+            <Dependent Role="UserInfo">
+              <PropertyRef Name="UserRoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ltclk_eteacherEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="LessonInfoes" EntityType="Self.LessonInfo" />
+          <EntitySet Name="MoodlePaymentInfoes" EntityType="Self.MoodlePaymentInfo" />
+          <EntitySet Name="MoodleSubjectInfoes" EntityType="Self.MoodleSubjectInfo" />
+          <EntitySet Name="SubjectInfoes" EntityType="Self.SubjectInfo" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="UserInfoes" EntityType="Self.UserInfo" />
+          <EntitySet Name="UserRoleInfoes" EntityType="Self.UserRoleInfo" />
+          <EntitySet Name="VIdeoInfoes" EntityType="Self.VIdeoInfo" />
+          <EntitySet Name="VideoTxnInfoes" EntityType="Self.VideoTxnInfo" />
+          <AssociationSet Name="FK_MoodlePaymentInfo_MoodleSubjectInfo1" Association="Self.FK_MoodlePaymentInfo_MoodleSubjectInfo1">
+            <End Role="MoodleSubjectInfo" EntitySet="MoodleSubjectInfoes" />
+            <End Role="MoodlePaymentInfo" EntitySet="MoodlePaymentInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserInfo_SubjectInfo" Association="Self.FK_UserInfo_SubjectInfo">
+            <End Role="SubjectInfo" EntitySet="SubjectInfoes" />
+            <End Role="UserInfo" EntitySet="UserInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VIdeoInfo_SubjectInfo1" Association="Self.FK_VIdeoInfo_SubjectInfo1">
+            <End Role="SubjectInfo" EntitySet="SubjectInfoes" />
+            <End Role="VIdeoInfo" EntitySet="VIdeoInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserInfo_UserRoleInfo1" Association="Self.FK_UserInfo_UserRoleInfo1">
+            <End Role="UserRoleInfo" EntitySet="UserRoleInfoes" />
+            <End Role="UserInfo" EntitySet="UserInfoes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ltclk_eteacherModelStoreContainer" CdmEntityContainer="ltclk_eteacherEntities">
+          <EntitySetMapping Name="LessonInfoes">
+            <EntityTypeMapping TypeName="ltclk_eteacherModel.LessonInfo">
+              <MappingFragment StoreEntitySet="LessonInfo">
+                <ScalarProperty Name="UId" ColumnName="UId" />
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="LessonName" ColumnName="LessonName" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MoodlePaymentInfoes">
+            <EntityTypeMapping TypeName="ltclk_eteacherModel.MoodlePaymentInfo">
+              <MappingFragment StoreEntitySet="MoodlePaymentInfo">
+                <ScalarProperty Name="UId" ColumnName="UId" />
+                <ScalarProperty Name="SubID" ColumnName="SubID" />
+                <ScalarProperty Name="Subjects" ColumnName="Subjects" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="NIC" ColumnName="NIC" />
+                <ScalarProperty Name="EzyCashRef" ColumnName="EzyCashRef" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MoodleSubjectInfoes">
+            <EntityTypeMapping TypeName="ltclk_eteacherModel.MoodleSubjectInfo">
+              <MappingFragment StoreEntitySet="MoodleSubjectInfo">
+                <ScalarProperty Name="SubID" ColumnName="SubID" />
+                <ScalarProperty Name="SubjectName" ColumnName="SubjectName" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubjectInfoes">
+            <EntityTypeMapping TypeName="ltclk_eteacherModel.SubjectInfo">
+              <MappingFragment StoreEntitySet="SubjectInfo">
+                <ScalarProperty Name="UId" ColumnName="UId" />
+                <ScalarProperty Name="SubjectName" ColumnName="SubjectName" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ltclk_eteacherModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInfoes">
+            <EntityTypeMapping TypeName="ltclk_eteacherModel.UserInfo">
+              <MappingFragment StoreEntitySet="UserInfo">
+                <ScalarProperty Name="UId" ColumnName="UId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="SubjectsID" ColumnName="SubjectsID" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="LoginCount" ColumnName="LoginCount" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+                <ScalarProperty Name="IsLTC" ColumnName="IsLTC" />
+                <ScalarProperty Name="UserRoleID" ColumnName="UserRoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRoleInfoes">
+            <EntityTypeMapping TypeName="ltclk_eteacherModel.UserRoleInfo">
+              <MappingFragment StoreEntitySet="UserRoleInfo">
+                <ScalarProperty Name="UId" ColumnName="UId" />
+                <ScalarProperty Name="UserRole" ColumnName="UserRole" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VIdeoInfoes">
+            <EntityTypeMapping TypeName="ltclk_eteacherModel.VIdeoInfo">
+              <MappingFragment StoreEntitySet="VIdeoInfo">
+                <ScalarProperty Name="UId" ColumnName="UId" />
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="LessonID" ColumnName="LessonID" />
+                <ScalarProperty Name="VideoURL" ColumnName="VideoURL" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="VideoName" ColumnName="VideoName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VideoTxnInfoes">
+            <EntityTypeMapping TypeName="ltclk_eteacherModel.VideoTxnInfo">
+              <MappingFragment StoreEntitySet="VideoTxnInfo">
+                <ScalarProperty Name="UId" ColumnName="UId" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="VideoViewCount" ColumnName="VideoViewCount" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="VideoID" ColumnName="VideoID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
